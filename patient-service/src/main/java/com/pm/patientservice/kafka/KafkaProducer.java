@@ -38,7 +38,7 @@ public class KafkaProducer {
 
         try {
 
-            log.info("Sending event to Kafka topic: patienttt");
+            log.info("Sending event to Kafka topic: patient");
 
             kafkaTemplate.send("patient", event.toByteArray());
 

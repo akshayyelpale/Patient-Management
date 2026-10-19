@@ -1,0 +1,26 @@
+services:
+
+  postgres-db:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: patient_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres@ak
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  patient-service:
+    build: .
+    container_name: patient-service
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    ports:
+      - "4002:4002"
+      - "9090:9090"

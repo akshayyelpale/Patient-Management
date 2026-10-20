@@ -1,24 +1,4 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  io.swagger.v3.oas.annotations.Operation
- *  io.swagger.v3.oas.annotations.tags.Tag
- *  jakarta.validation.groups.Default
- *  org.springframework.http.HttpStatus
- *  org.springframework.http.HttpStatusCode
- *  org.springframework.http.ResponseEntity
- *  org.springframework.validation.annotation.Validated
- *  org.springframework.web.bind.annotation.CrossOrigin
- *  org.springframework.web.bind.annotation.DeleteMapping
- *  org.springframework.web.bind.annotation.GetMapping
- *  org.springframework.web.bind.annotation.PathVariable
- *  org.springframework.web.bind.annotation.PostMapping
- *  org.springframework.web.bind.annotation.PutMapping
- *  org.springframework.web.bind.annotation.RequestBody
- *  org.springframework.web.bind.annotation.RequestMapping
- *  org.springframework.web.bind.annotation.RestController
- */
+
 package com.pm.patientservice.contoller;
 
 import com.pm.patientservice.dto.PatientRequestDTO;
@@ -65,14 +45,14 @@ public class PatientController {
     @Operation(summary="Create a new patient")
     public ResponseEntity<PatientResponseDTO> createPatient(@Validated(value={Default.class, CreatePatientValidationGroup.class}) @RequestBody PatientRequestDTO PRdto) {
         PatientResponseDTO patientResponseDTO = this.patientservice.createPatient(PRdto);
-        return ResponseEntity.ok().body((Object)patientResponseDTO);
+        return ResponseEntity.ok(patientResponseDTO);
     }
 
     @PutMapping(value={"update/{id}"})
     @Operation(summary="Update the patient")
     public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable int id, @Validated(value={Default.class}) @RequestBody PatientRequestDTO dto) {
         PatientResponseDTO patientResponseDTO = this.patientservice.updatePatient(id, dto);
-        return ResponseEntity.ok().body((Object)patientResponseDTO);
+        return ResponseEntity.ok(patientResponseDTO);
     }
 
     @DeleteMapping(value={"/delete/{id}"})
@@ -80,10 +60,10 @@ public class PatientController {
     public ResponseEntity<String> deletePatient(@PathVariable int id) {
         try {
             this.patientservice.deletePatient(id);
-            return ResponseEntity.ok((Object)"Patient deleted successfully");
+            return ResponseEntity.ok("Patient deleted successfully");
         }
         catch (RuntimeException e) {
-            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body((Object)e.getMessage());
+            return ResponseEntity.status((HttpStatusCode)HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }

@@ -32,10 +32,12 @@ public class PatientService {
     }
 
     public List<PatientResponseDTO> getpatients() {
-        List patients = this.patientrepo.findAll();
-        return patients.stream().map(patient -> PatientMapper.toDTO(patient)).toList();
-    }
+        List<Patient> patients = this.patientrepo.findAll();
 
+        return patients.stream()
+                .map(patient -> PatientMapper.toDTO(patient))
+                .toList();
+    }
     public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
         if (this.patientrepo.existsByEmail(patientRequestDTO.getEmail())) {
             throw new EmailAlreadyExistsException("A patient with this email already exists " + patientRequestDTO.getEmail());
